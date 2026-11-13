@@ -20,7 +20,9 @@ y documentar el juego, incluyendo prompts, iteraciones, errores y verificaciones
 | Prueba | OpenCode + navegador integrado | Build de producción verificada y capturas |
 | Cierre | OpenCode agente **Build** | GDD en PDF, README, AGENTS.md y este documento |
 
-Flujo aplicado: **Plan → Build → probar → corregir → commit**.
+Flujo aplicado: **Plan → Build → probar → corregir → commit**. La última
+iteración siguió además el flujo definido en `AGENTS.md`: revisar documentación →
+crear rama → implementar → verificar → pedir confirmación → commit y push.
 
 La pestaña del navegador de pruebas se controló desde OpenCode con el hook
 `window.__BRASA__` y ejecución de scripts en la página. No se usaron herramientas
@@ -69,6 +71,7 @@ El plan completo quedó en [`docs/PLAN.md`](PLAN.md).
 | 8 | Finales, derrota y reinicio | `GameOverScene.js`, `VictoryScene.js` |
 | 9 | Audio sintetizado y pulido | `AudioSystem.js`, partículas, pausa |
 | 10 | PDF, capturas y documentación | `scripts/generate-pdf.mjs`, `README.md`, `AGENTS.md` |
+| 11 | Ajuste de `AGENTS.md` al modelo de la cátedra | `AGENTS.md` (referencia: `docs/agents.pdf`) |
 
 ### Prompts clave usados en Build
 
@@ -103,6 +106,15 @@ El plan completo quedó en [`docs/PLAN.md`](PLAN.md).
    > recuerdos, quemar con Q, encender una antorcha, recibir daño, caer al agua, pasar
    > de nivel, ganar, perder y reiniciar. Después generá el PDF, las capturas y las
    > evidencias.
+
+6. **Ajuste del AGENTS.md**
+
+   > El `AGENTS.md` tenía que seguir el modelo de `docs/agents.pdf`, el que pasaron
+   > en la cátedra. Revisá ese PDF y adaptá el archivo al proyecto.
+
+   Se consultaron dos decisiones antes de avanzar: adoptar una rama por tarea y
+   limitar el archivo al modelo del PDF, sin anexos técnicos. La implementación se
+   hizo en `docs/agents-md-modelo` (`48d0aec`) y se integró en `main` (`740a8e1`).
 
 ---
 
@@ -193,6 +205,9 @@ navegador. La build final termina sin errores de consola.
 | `f2beec7` | `docs: add production screenshots and OpenCode evidence` | Capturas, PDF final y este documento |
 | `64d2257` | `test: verify full-level traversal with autopilot` | Pruebas 18–20 de transitabilidad |
 | `b7e8692` | `fix: reset menu transition state when returning to menu` | Reinicio de `MenuScene.transitioning` y prueba 21 |
+| `0d4f612` | `docs: use singular author label` | Etiqueta de autoría en singular en `README.md` |
+| `48d0aec` | `docs: rewrite AGENTS.md following the course template` | `AGENTS.md` con las 11 secciones del modelo |
+| `740a8e1` | `docs: merge AGENTS.md template update` | Integración del cambio anterior en `main` |
 
 > El historial completo se puede ver con `git log --oneline --decorate`.
 
