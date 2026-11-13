@@ -2,7 +2,8 @@
 
 **Trabajo Práctico · Módulo 7 · Desarrollo Tecnológico 2**
 **Proyecto:** Brasa — El último fuego
-**Equipo:** [Integrante 1] · [Integrante 2]
+**Integrante:** Santiago Tornau
+**Repositorio:** <https://github.com/acloshh/Actividad-Modulo-7-Desarrollo-Tecnologico>
 **Fecha:** Noviembre de 2026
 
 Este documento registra cómo se usó **OpenCode** para planificar, construir, probar
@@ -191,17 +192,17 @@ navegador. La build final termina sin errores de consola.
 | `d071347` | `docs: add GDD, plan, README and agent guide` | GDD, PLAN, README, AGENTS y script de PDF |
 | `f2beec7` | `docs: add production screenshots and OpenCode evidence` | Capturas, PDF final y este documento |
 | `64d2257` | `test: verify full-level traversal with autopilot` | Pruebas 18–20 de transitabilidad |
-| *(este commit)* | `fix: reset menu transition state when returning to menu` | Reinicio de `MenuScene.transitioning` y prueba 21 |
+| `b7e8692` | `fix: reset menu transition state when returning to menu` | Reinicio de `MenuScene.transitioning` y prueba 21 |
 
 > El historial completo se puede ver con `git log --oneline --decorate`.
 
 ---
 
-## 7. Pendientes de entrega
+## 7. Entrega
 
-- [ ] Completar nombres de los dos integrantes.
-- [ ] Publicar el repositorio en GitHub y pegar la URL.
-- [ ] Enviar por Campus Virtual: nombre del juego, integrantes, URL del repo,
+- [x] Integrante: **Santiago Tornau**.
+- [x] Repositorio: <https://github.com/acloshh/Actividad-Modulo-7-Desarrollo-Tecnologico>.
+- [ ] Enviar por Campus Virtual: nombre del juego, integrante, URL del repo,
   link al `docs/GDD.pdf` y descripción del trabajo con OpenCode.
 
 ---

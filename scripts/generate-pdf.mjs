@@ -198,7 +198,7 @@ const html = `<!doctype html>
     <div class="cover-meta">
       <div><span>Materia</span>Desarrollo Tecnológico 2</div>
       <div><span>Stack</span>JavaScript · Node.js · Vite · Phaser 3</div>
-      <div><span>Equipo</span>2 integrantes</div>
+      <div><span>Equipo</span>Santiago Tornau</div>
       <div><span>Fecha</span>${coverDate}</div>
     </div>
   </section>

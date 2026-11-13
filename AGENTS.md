@@ -195,8 +195,8 @@ const png = game.canvas.toDataURL('image/png');
 
 ## 9. Contacto y entrega
 
-- Repositorio público: **[completar URL de GitHub]**
-- Integrantes: **[Integrante 1]**, **[Integrante 2]**
+- Repositorio público: **<https://github.com/acloshh/Actividad-Modulo-7-Desarrollo-Tecnologico>**
+- Integrante: **Santiago Tornau**
 - Entrega: Campus Virtual, Módulo 7.
 
 Si sos un agente y falta algún dato de la entrega, dejalo marcado como

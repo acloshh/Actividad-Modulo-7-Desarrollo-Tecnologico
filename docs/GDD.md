@@ -7,7 +7,7 @@
 | **Plataforma** | Navegador (WebGL / Canvas) |
 | **Stack** | JavaScript · Node.js · Vite · Phaser 3 |
 | **Duración** | 10–15 minutos (3 niveles) |
-| **Equipo** | 2 integrantes |
+| **Equipo** | Santiago Tornau |
 | **Versión** | 1.0 |
 
 ---
