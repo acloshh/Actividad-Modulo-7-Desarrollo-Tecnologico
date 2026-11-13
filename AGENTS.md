@@ -1,203 +1,274 @@
 # AGENTS.md — Brasa
 
-Instrucciones para agentes de OpenCode (y para cualquier persona) que trabajen en este
-repositorio. Leer antes de modificar código.
+Instrucciones para agentes de IA que trabajen en este repositorio. Se aplican al inicio de cada
+consulta y antes de modificar el proyecto. Los comandos, la arquitectura, la edición de niveles y
+el Definition of Done están en `README.md` y `docs/GDD.md`.
 
-## 1. Contexto del proyecto
+## 1. Alcance y contexto
 
-**Brasa — El último fuego** es un plataformas 2D corto (3 niveles, 10–15 minutos)
-hecho con **JavaScript, Vite y Phaser 3.90**. El jugador es una brasa viviente:
-el **Calor** es a la vez vida, radio de luz y munición. Los recuerdos se pueden
-conservar (puntaje/final) o quemar (+100 Calor).
+- Brasa — El último fuego es un plataformas 2D de 3 niveles (10–15 minutos) hecho con JavaScript,
+  Vite y Phaser 3.90.
+- Responder en español y adaptar la profundidad del análisis a la complejidad de la solicitud.
+- Documentación vigente:
+  - `docs/GDD.md`: documento principal de requisitos y reglas del juego.
+  - `docs/GDD.pdf`: versión PDF del GDD; al citarla, indicar la página y aclarar si la numeración
+    del archivo difiere de la impresa.
+  - `docs/PLAN.md`: plan de implementación.
+  - `docs/EVIDENCIAS_OPENCODE.md`: prompts, pruebas, errores y soluciones.
+  - `README.md`: uso, comandos, controles y estructura.
+  - `docs/capturas/`: capturas de referencia de la interfaz.
+- Revisar la información vigente en esos archivos; no depender de resúmenes de conversaciones
+  anteriores.
+- Preservar el trabajo existente del usuario: revisar antes de borrar o sobrescribir y consultar
+  cuando haya duda.
 
-- Documento de diseño: `docs/GDD.md` (el PDF se genera desde ahí).
-- Plan de implementación: `docs/PLAN.md`.
-- Evidencias y pruebas: `docs/EVIDENCIAS_OPENCODE.md`.
-- Capturas: `docs/capturas/`.
+## 2. Revisar la documentación y el requisito
 
-El objetivo del TP es demostrar un juego completo y pequeño, con mecánica propia,
-progreso, victoria/derrota, reinicio y uso documentado de OpenCode.
+Antes de proponer o implementar una solución:
 
-## 2. Comandos
+1. Identificar el requisito y su comportamiento esperado.
+2. Revisar `docs/` y las secciones pertinentes del GDD: §4 Mecánicas, §5 Niveles, §6 Puntaje,
+   §7 Controles, §8 Presentación, §9 Alcance, §10 Arquitectura técnica y §11 Criterios de
+   aceptación.
+3. Clasificar el requisito como:
+   - **Definido:** la documentación describe suficientemente el comportamiento.
+   - **Parcialmente definido:** está contemplado, pero faltan detalles necesarios.
+   - **No definido:** no aparece en la documentación revisada.
+   - **En contradicción:** la solicitud difiere de una regla documentada.
+   - **No aplica:** consulta técnica o documental sin una regla funcional asociada.
+4. Citar el documento y la sección que respaldan el análisis. En Markdown, indicar el título o
+   número del apartado; en PDF, la página.
+5. Diferenciar las reglas documentadas de las propuestas y los supuestos.
 
-```bash
-npm install            # instalar dependencias
-npm run dev            # servidor de desarrollo (Vite)
-npm run build          # build de producción en dist/
-npm run preview        # servir la build en un puerto local
-npm run generate:pdf   # regenerar docs/GDD.pdf (requiere Edge/Chrome)
-```
+Si la documentación no existe o no puede leerse, indicarlo claramente y no afirmar que el
+requisito está definido o ausente.
 
-Antes de dar una tarea por terminada:
+Un requisito no documentado puede ser una ampliación válida: identificarlo como tal y consultar
+las decisiones necesarias. No modificar la documentación de requisitos para justificar una
+implementación sin una solicitud explícita del usuario.
 
-```bash
-npm run build
-```
+## 3. Analizar conflictos e impacto
 
-Si se tocó `docs/GDD.md`, regenerar el PDF:
+Antes de modificar una funcionalidad:
 
-```bash
-npm run generate:pdf
-```
+- Revisar tanto las reglas documentadas como la implementación existente.
+- Identificar dependencias, restricciones compartidas, excepciones, prioridades entre
+  comportamientos y posibles regresiones.
+- Comparar el comportamiento actual con la documentación; no asumir que el código existente es
+  correcto.
+- Detectar contradicciones internas de la documentación, incluidas diferencias entre texto,
+  diagramas y capturas.
+- Comunicar los conflictos relevantes antes de modificar la parte afectada.
 
-## 3. Arquitectura
+En este videojuego, considerar cuando corresponda:
 
-```text
-src/main.js                 Configuración de Phaser y lista de escenas
-src/config.js               Dimensiones, colores, tuning y estados de Calor
-src/data/levels.js          Datos de los 3 niveles (plataformas, spawns, etc.)
+- El Calor como recurso único (vida, luz y munición), su gasto y su recuperación.
+- Los estados del jugador y del Apagado, y sus transiciones.
+- Movimiento, salto, dash, colisiones y límites del escenario.
+- Alcanzabilidad de plataformas y separación vertical entre ellas.
+- Recogida y quema de recuerdos, activación de antorchas y consumo en la puerta.
+- Viento, agua y demás peligros ambientales.
+- Navegación de escenas, pausa, victoria, derrota, reinicio y guardas de transición.
+- Actualización del HUD por eventos y persistencia del mejor puntaje.
+- Controles de teclado y mouse.
 
-src/scenes/
-  BootScene.js              Genera TODAS las texturas por código
-  MenuScene.js              Título, controles, mejor puntaje, inicio
-  GameScene.js              Núcleo: input, física, peligros, cámara, oscuridad,
-                            transiciones, victoria y derrota
-  HUDScene.js               Barra de Calor, puntaje, recuerdos, avisos
-  GameOverScene.js          Derrota + reintentar/menú
-  VictoryScene.js           Tres finales según recuerdos conservados
+## 4. Preguntar antes de avanzar ante dudas
 
-src/entities/
-  Player.js                 Movimiento, salto, dash, daño, luz, máquina de estados
-  Enemy.js                  Apagado: patrol/chase/flee/stunned
-  Fuel.js                   Astilla (+15 Calor)
-  Memory.js                 Recuerdo (conservar o quemar)
-  Torch.js                  Antorcha encendible/apagable
-  Spark.js                  Chispa proyectil (pool)
-  WindZone.js               Zona de viento con partículas
+Cuando una duda afecte el alcance, las reglas, el comportamiento, la compatibilidad o la
+implementación:
 
-src/systems/
-  HeatSystem.js             Fuente única de verdad del Calor
-  ScoreSystem.js            Puntaje de la run
-  LevelManager.js           Construye el nivel desde datos y expone grupos
-  AudioSystem.js            SFX sintetizados con Web Audio API
-  EventBus.js               Observer: eventos de gameplay → HUD
-  Storage.js                Mejor puntaje en localStorage
+- Usar la herramienta de preguntas al usuario disponible en el entorno, por ejemplo `question`.
+- Formular preguntas concretas.
+- Explicar qué decisión falta y por qué importa.
+- Ofrecer opciones cuando faciliten la decisión.
+- Incluir una recomendación fundamentada cuando corresponda.
+- Esperar la respuesta antes de adoptar una decisión que cambie el comportamiento solicitado.
+- No inventar reglas para resolver omisiones o contradicciones.
+- Continuar con tareas independientes cuyo alcance esté claro.
 
-src/patterns/
-  StateMachine.js           State pattern (player/enemy)
-  ObjectPool.js             Object pool (sparks)
+Si la herramienta de preguntas no está disponible, preguntar directamente en la conversación y
+esperar la aclaración necesaria.
 
-src/ui/Button.js            Botón reutilizable
-src/assets/README.md        Documenta que no hay assets binarios
-```
+## 5. Utilizar POO y patrones de diseño
 
-### Flujo de escenas
+- Modelar las entidades y comportamientos del dominio mediante programación orientada a objetos,
+  respetando JavaScript, Phaser 3.90, Vite y la arquitectura de `src/`.
+- Encapsular el estado y las reglas.
+- Mantener responsabilidades claras, alta cohesión y bajo acoplamiento.
+- Favorecer composición cuando evite jerarquías de herencia innecesarias.
+- Separar la lógica de juego de la presentación y de la entrada del usuario.
+- Utilizar patrones de diseño cuando resuelvan una necesidad concreta:
+  - **State** para los estados del jugador y del Apagado.
+  - **Object Pool** para reutilizar chispas.
+  - **Observer** para que el HUD escuche eventos sin consultar el estado interno del juego.
+- Explicar brevemente la elección y utilidad de los patrones aplicados.
+- Evitar abstracciones innecesarias y refactorizaciones ajenas al requisito.
 
-```text
-BootScene → MenuScene → GameScene + HUDScene
-                              ├─→ GameOverScene → GameScene (reintentar) / MenuScene
-                              └─→ VictoryScene → GameScene (nueva run) / MenuScene
-```
+## 6. Reutilizar código existente
 
-`GameScene` se reinicia con `scene.restart({ ...carry })` entre niveles conservando
-puntaje, recuerdos y tiempo. Al terminar la run se vuelve a empezar desde cero.
+Antes de crear clases, componentes, servicios o utilidades:
 
-### Principios de diseño
+1. Buscar implementaciones relacionadas en `src/entities/`, `src/systems/`, `src/patterns/` y
+   `src/scenes/`.
+2. Revisar sus contratos, comportamiento y consumidores.
+3. Priorizar su reutilización o extensión cuando sean compatibles.
+4. Evitar duplicar lógica de negocio, en particular la del Calor, el puntaje y las transiciones.
+5. Extraer lógica común cuando exista una necesidad real, preservando el comportamiento de sus
+   consumidores.
+6. Respetar las convenciones de estructura, nombres y estilo del proyecto.
 
-- **El Calor es la única fuente de verdad** (`HeatSystem`). No duplicar lógica de
-  vida/luz/municiones en otros archivos.
-- **Los niveles son datos**, no código: `src/data/levels.js` + `LevelManager`.
-- **El HUD escucha eventos** (`EventBus`), no consulta el estado interno del juego.
-- **Sin assets binarios**: texturas en `BootScene`, sonidos en `AudioSystem`.
-- **Reinicio limpio**: todos los listeners, tweens, partículas y grupos deben
-  destruirse en `GameScene.handleShutdown()` y en los `shutdown` de las escenas.
+Si no existe código reutilizable, indicarlo y diseñar una solución coherente con el proyecto.
+Repetir esta revisión en cada tarea; no asumir que la estructura permanece igual entre consultas.
 
-## 4. Convenciones de código
+## 7. Consultar sobre sprites y recursos gráficos
 
-- JavaScript moderno con **ES Modules** (`import`/`export`).
-- 2 espacios, punto y coma, comillas simples.
-- Una clase o responsabilidad principal por archivo.
-- Nombres de clases en `PascalCase`; métodos y variables en `camelCase`.
-- Comentarios y textos de UI **en español** (el público del TP es hispanohablante).
-- No introducir TypeScript, frameworks de UI ni dependencias nuevas sin justificarlo.
-- Mantener el estilo y la paleta existentes (azul noche + ámbar).
-- Evitar `console.log` en el código de producción; usar el HUD/avisos para feedback.
+El GDD establece que las texturas y el audio se generan por código (§8) y que los assets externos
+están fuera de alcance (§9). Cuando una tarea requiera imágenes, sprites, animaciones o audio:
 
-## 5. Reglas para agentes
+1. Revisar los recursos disponibles y sus convenciones de uso en `src/scenes/BootScene.js`,
+   `src/systems/AudioSystem.js` y `src/assets/README.md`.
+2. Usar la herramienta de preguntas antes de implementar la parte visual para confirmar si se
+   desea:
+   - **Generar un mockup:** una representación provisional, en este proyecto preferentemente
+     procedural, para desarrollar y validar la funcionalidad.
+   - **Utilizar un recurso existente:** solicitar el nombre exacto del recurso y su ruta.
+3. Si el recurso indicado no puede localizarse, pedir su ruta o el archivo correspondiente.
 
-### Hacer
+Además:
 
-1. Leer `docs/GDD.md` y este archivo antes de cambios grandes.
-2. Mantener el alcance: 3 niveles, una mecánica central, sin jefes ni multijugador.
-3. Verificar `npm run build` después de cada cambio relevante.
-4. Probar el flujo afectado en `npm run preview` (no solo en desarrollo).
-5. Actualizar `docs/GDD.md` y regenerar el PDF si cambia una regla de juego.
-6. Actualizar `docs/EVIDENCIAS_OPENCODE.md` si se agrega una iteración importante.
-7. Usar `window.__BRASA__` solo para pruebas; no convertirlo en API del juego.
-8. Mantener las capturas de `docs/capturas/` actualizadas si cambia la UI.
+- No asumir qué recurso utilizar ni inventar nombres o rutas.
+- Si se elige un mockup, aclarar que es provisional y confirmar el alcance visual necesario.
+- Si se elige un recurso existente, comprobar su disponibilidad y compatibilidad con el uso
+  previsto, y verificar que no contradiga la regla de assets generados por código.
+- Consultar detalles como spritesheet, fotogramas o animaciones cuando sean necesarios y no estén
+  documentados.
+- Si falta el archivo, solicitarlo antes de avanzar con la parte que depende de él.
+- Continuar con la lógica independiente de los recursos gráficos mientras se resuelve la consulta.
 
-### No hacer
+## 8. Definir y preparar el flujo Git
 
-- No commitear `node_modules/`, `dist/`, `docs/pdf-preview/` ni logs.
-- No agregar imágenes/audio externos: el GDD promete assets generados por código.
-- No romper los guards de `GameScene` (`isTransitioning`, `isGameOver`, `isPaused`).
-- No dejar listeners de `EventBus` o timers vivos al cambiar de escena.
-- No cambiar el orden de los argumentos de los colliders sin probarlo: Phaser
-  normaliza grupo↔sprite a `(sprite, groupChild)`.
-- No usar `canvas.toDataURL()` sin un `game.step()` inmediatamente anterior
-  (el buffer WebGL se limpia).
-- No editar `package-lock.json` a mano.
+Antes de implementar:
 
-## 6. Cómo agregar o modificar un nivel
+- Comprobar que el proyecto utiliza Git. El repositorio tiene remoto `origin` y rama base `main`.
+- Revisar el estado del repositorio, la rama actual, los remotos y la estrategia documentada.
+- No asumir que existe `develop` ni imponer GitFlow completo sin acordarlo.
+- Si no hay una estrategia definida, consultar la rama base, la convención de nombres y el remoto.
 
-1. Editar `src/data/levels.js`:
-   - `width`, `spawn`, `platforms`, `fuels`, `memories`, `torches`, `enemies`,
-     `winds`, `hazards`, `exit`, `hint`.
-2. Verificar que las plataformas sean alcanzables con el salto actual:
-   - salto ≈ 128 px de altura, velocidad 205 px/s (300 corriendo).
-   - separación vertical recomendada entre plataformas: ≤ 80 px.
-3. Asegurar que los enemigos patrullen dentro de un segmento con piso continuo.
-4. Asegurar que haya al menos 1 recuerdo alcanzable antes de la puerta.
-5. Probar la transición: `Memoria(s) → puerta → siguiente nivel`.
-6. Actualizar la tabla de niveles del GDD si cambia el diseño.
+Crear una rama de trabajo antes de modificar el código, con un nombre descriptivo:
 
-## 7. Verificación mínima (Definition of Done)
+- `feature/<descripcion>`
+- `fix/<descripcion>`
+- `docs/<descripcion>`
+- `refactor/<descripcion>`
+- `test/<descripcion>`
+- `chore/<descripcion>`
 
-- [ ] `npm run build` termina sin errores.
-- [ ] `npm run preview` sirve la build y el menú carga.
-- [ ] Se puede iniciar una partida.
-- [ ] Movimiento (`A`/`D`), salto (`Espacio`), chispa (`J`) y quema (`Q`) funcionan.
-- [ ] El Calor baja, se recupera con astillas y con antorchas.
-- [ ] Un enemigo hace daño y el viento empuja/drena.
-- [ ] Caer al agua respawnea y descuenta Calor.
-- [ ] La puerta consume un recuerdo y cambia de nivel.
-- [ ] Victoria y derrota muestran la pantalla correcta.
-- [ ] `R` reinicia la run con nivel 1, puntaje 0 y Calor 100.
-- [ ] El mejor puntaje persiste en `localStorage`.
-- [ ] No hay errores en la consola del navegador.
-- [ ] Si cambió el GDD, `docs/GDD.pdf` está regenerado.
+Si ya existe una rama apropiada para la tarea, verificar si corresponde continuar en ella.
+No implementar directamente sobre `main` (ni sobre `master` o `develop` si existieran).
 
-## 8. Pruebas automatizadas en navegador
+Si existen cambios previos del usuario:
 
-`src/main.js` expone `window.__BRASA__` (la instancia de `Phaser.Game`) para pruebas.
-Ejemplos útiles en la consola:
+- Preservarlos.
+- Identificar si interfieren con la tarea.
+- Consultar antes de realizar operaciones que puedan moverlos, descartarlos o mezclarlos con
+  otros cambios.
 
-```js
-const game = window.__BRASA__;
-game.scene.getScenes(true).map((s) => s.scene.key); // escenas activas
-game.scene.getScene('GameScene').heat.value;        // Calor actual
-game.scene.getScene('GameScene').levelIndex;        // nivel actual
-```
+Si el proyecto no tiene repositorio Git o remoto configurado, informar la situación y consultar
+antes de inicializarlo o configurarlo.
 
-Para avanzar escenas cuando la pestaña está oculta/throttled:
+## 9. Implementar y verificar
 
-```js
-game.scene.processQueue();
-for (let i = 0; i < 60; i++) game.scene.update(performance.now() + i * 16.67, 16.67);
-```
+- Definir criterios de aceptación a partir del requisito, la documentación y las aclaraciones del
+  usuario.
+- Realizar cambios enfocados en el alcance acordado.
+- Ejecutar las comprobaciones disponibles y pertinentes al cambio:
+  - `npm run build` después de cada cambio relevante.
+  - `npm run preview` para probar el flujo afectado, no solo el servidor de desarrollo.
+  - `npm run generate:pdf` si se modificó `docs/GDD.md`, y revisar el PDF generado.
+- Verificar las interacciones identificadas durante el análisis de impacto: Calor, controles,
+  colisiones, enemigos, viento, peligros, transiciones, pausa, victoria, derrota, reinicio y
+  persistencia del mejor puntaje.
+- Mantener las invariantes del proyecto: el Calor como única fuente de verdad, los niveles como
+  datos, el HUD por eventos, los assets generados por código y el reinicio limpio de listeners,
+  tweens y partículas.
+- Agregar pruebas cuando aporten valor para validar reglas o prevenir regresiones.
+- Evitar pruebas que solo repliquen la implementación.
+- Informar qué se verificó y qué quedó pendiente.
+- No afirmar resultados que no fueron comprobados.
 
-Para capturas:
+## 10. Solicitar confirmación y realizar commit y push
 
-```js
-game.step(performance.now(), 16.67);
-const png = game.canvas.toDataURL('image/png');
-```
+Cuando termine la implementación:
 
-## 9. Contacto y entrega
+1. Presentar al usuario:
+   - Resumen del comportamiento implementado.
+   - Archivos afectados.
+   - Verificaciones realizadas y sus resultados.
+   - Pendientes o limitaciones reales.
+   - Rama de trabajo utilizada.
+2. Usar la herramienta de preguntas para solicitar:
+   - Confirmación de que la implementación es aceptada.
+   - Autorización explícita para realizar commit y push.
+3. Esperar la respuesta.
+4. Si el usuario solicita ajustes:
+   - Realizarlos.
+   - Repetir las verificaciones afectadas.
+   - Volver a solicitar confirmación.
 
-- Repositorio público: **<https://github.com/acloshh/Actividad-Modulo-7-Desarrollo-Tecnologico>**
-- Integrante: **Santiago Tornau**
-- Entrega: Campus Virtual, Módulo 7.
+Después de recibir autorización:
 
-Si sos un agente y falta algún dato de la entrega, dejalo marcado como
-`[completar]` y avisá en la respuesta final; no inventes nombres ni URLs.
+1. Revisar `git status`, `git diff` y `git log --oneline -10`.
+2. Revisar los archivos nuevos que se incluirán.
+3. Preparar únicamente los cambios correspondientes a la tarea, sin incluir cambios ajenos,
+   artefactos ignorados ni secretos.
+4. Crear un commit descriptivo, coherente con el historial del repositorio (`feat:`, `fix:`,
+   `docs:`, `test:`, `chore:`).
+5. Realizar push de la rama al remoto acordado, configurando su seguimiento cuando corresponda.
+6. Informar:
+   - Nombre de la rama.
+   - Identificador y mensaje del commit.
+   - Resultado del push.
+
+No realizar commit ni push sin autorización explícita del usuario.
+No hacer force push, omitir hooks, modificar la configuración de Git ni fusionar ramas sin una
+solicitud expresa.
+
+Si un hook o comprobación falla, resolver el problema antes de continuar. Si commit o push falla,
+informar el resultado sin afirmar que la operación se completó.
+
+La creación de un pull request y la integración en la rama base requieren autorización adicional.
+
+## 11. Comunicar el análisis y los resultados
+
+Antes de implementar, presentar un análisis breve con los puntos pertinentes:
+
+### Análisis previo
+
+- **Requisito:** comportamiento solicitado.
+- **Documentación:** estado y referencias.
+- **Conflictos e impacto:** funcionalidades y reglas afectadas.
+- **Reutilización:** código existente aprovechable.
+- **Diseño:** enfoque POO y patrones pertinentes.
+- **Recursos gráficos:** recursos confirmados o consulta pendiente.
+- **Git:** rama base y rama de trabajo.
+- **Dudas:** decisiones que requieren respuesta del usuario.
+
+Para consultas simples, reducir el formato a los puntos aplicables.
+
+Al finalizar, resumir:
+
+- Cambios y archivos afectados.
+- Decisiones relevantes.
+- Verificaciones ejecutadas.
+- Pendientes reales.
+- Confirmación solicitada al usuario.
+- Resultado de commit y push, únicamente si fueron autorizados y ejecutados.
+
+No presentar propuestas como funcionalidades implementadas.
+
+## Flujo de trabajo esperado
+
+revisar documentación → analizar impacto → aclarar dudas →
+confirmar recursos gráficos cuando corresponda → definir y crear rama →
+diseñar y reutilizar → implementar → verificar →
+solicitar confirmación → commit → push
