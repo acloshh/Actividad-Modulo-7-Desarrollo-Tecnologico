@@ -141,6 +141,14 @@ Los valores son los observados en las pruebas.
 | 15 | Chispa contra plataforma | 1 disparada → 0 activas tras la colisión |
 | 16 | Antorcha | Se enciende con la chispa y queda `isLit = true` |
 | 17 | Mejor puntaje | Persistido en `localStorage` (`brasa:best-score`) |
+| 18 | Autopiloto nivel 1 | 935 frames; x máx. 3033; transición 0 → 1 |
+| 19 | Autopiloto nivel 2 | 1017 frames; x máx. 3244; transición 1 → 2 |
+| 20 | Autopiloto nivel 3 | 1108 frames; x máx. 3643; `VictoryScene` activa |
+
+Las pruebas 18–20 usaron un autopiloto que corre y salta, con el Calor fijo en 100
+y el jugador invulnerable, para aislar la **transitabilidad física** de los niveles
+(plataformas, huecos y puertas). No evalúan el balance de recursos, que se probó
+por separado en las pruebas 2–8.
 
 ### 4.3 Capturas de la build de producción
 
