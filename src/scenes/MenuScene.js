@@ -10,6 +10,8 @@ export default class MenuScene extends Phaser.Scene {
   }
 
   create() {
+    this.transitioning = false;
+
     this.add.image(0, 0, 'bg').setOrigin(0);
     this.add.image(0, GAME_HEIGHT - 320, 'mountains-far').setOrigin(0).setAlpha(0.8);
     this.add.image(0, GAME_HEIGHT - 240, 'mountains-near').setOrigin(0);

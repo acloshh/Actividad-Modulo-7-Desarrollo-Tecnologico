@@ -144,6 +144,7 @@ Los valores son los observados en las pruebas.
 | 18 | Autopiloto nivel 1 | 935 frames; x máx. 3033; transición 0 → 1 |
 | 19 | Autopiloto nivel 2 | 1017 frames; x máx. 3244; transición 1 → 2 |
 | 20 | Autopiloto nivel 3 | 1108 frames; x máx. 3643; `VictoryScene` activa |
+| 21 | Clic en JUGAR y volver al menú | El botón inicia la partida; al volver al menú, `transitioning` se reinicia y JUGAR vuelve a funcionar |
 
 Las pruebas 18–20 usaron un autopiloto que corre y salta, con el Calor fijo en 100
 y el jugador invulnerable, para aislar la **transitabilidad física** de los niveles
@@ -174,6 +175,7 @@ por separado en las pruebas 2–8.
 | 6 | La oscuridad tapaba casi todo | Alpha 0.9 y luces pequeñas | Alpha 0.87, luces más grandes y halo ambiental |
 | 7 | Enemigos podían salir de su segmento al perseguir | Clamp a `minX - 90` / `maxX + 90` | Clamp a `minX` / `maxX` |
 | 8 | No había `pandoc` para el PDF | Herramienta ausente | `marked` + Edge headless (`--print-to-pdf`) |
+| 9 | Al volver al menú, JUGAR no respondía | `MenuScene.transitioning` quedaba en `true` al reutilizar la escena | Se reinicia `transitioning` al comienzo de `create()` |
 
 Cada corrección se verificó con una nueva build de producción y una prueba en el
 navegador. La build final termina sin errores de consola.
@@ -187,7 +189,9 @@ navegador. La build final termina sin errores de consola.
 | `78741fc` | `chore: scaffold Vite + Phaser project` | `package.json`, lockfile, Vite, `index.html`, configuración y punto de entrada |
 | `af24453` | `feat: implement game scenes, entities, systems and levels` | Escenas, entidades, sistemas, patrones y los 3 niveles |
 | `d071347` | `docs: add GDD, plan, README and agent guide` | GDD, PLAN, README, AGENTS y script de PDF |
-| *(este commit)* | `docs: add production screenshots and OpenCode evidence` | Capturas, PDF final y este documento |
+| `f2beec7` | `docs: add production screenshots and OpenCode evidence` | Capturas, PDF final y este documento |
+| `64d2257` | `test: verify full-level traversal with autopilot` | Pruebas 18–20 de transitabilidad |
+| *(este commit)* | `fix: reset menu transition state when returning to menu` | Reinicio de `MenuScene.transitioning` y prueba 21 |
 
 > El historial completo se puede ver con `git log --oneline --decorate`.
 

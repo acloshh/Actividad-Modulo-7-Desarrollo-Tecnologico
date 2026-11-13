@@ -266,6 +266,7 @@ El TP se desarrolló con **OpenCode** siguiendo el flujo **Plan → Build → pr
 | Las chispas no se liberaban contra plataformas | El callback de un array de plataformas recibía `(zona, chispa)` | Se reemplazó el array por un `staticGroup` y se usó `(spark, platform)` |
 | La captura del canvas salía negra | El buffer WebGL se limpia después del frame | Se capturó con `game.step()` inmediatamente antes de `toDataURL()` |
 | La oscuridad tapaba demasiado | Alpha 0.9 y luces chicas | Se bajó a 0.87, se agrandaron las luces y se agregó un halo ambiental |
+| Al volver al menú, JUGAR no respondía | `MenuScene.transitioning` quedaba en `true` al reutilizar la escena | Se reinicia el flag en `create()` |
 | No había `pandoc` para el PDF | Herramienta no instalada | `marked` + Edge headless con `--print-to-pdf` |
 
 Las pruebas y capturas están documentadas en
