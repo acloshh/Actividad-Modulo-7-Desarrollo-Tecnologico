@@ -1,0 +1,505 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>Brasa — El último fuego · Mini GDD</title>
+<style>
+  @page { size: A4; margin: 17mm 16mm 18mm; }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    font-family: "Segoe UI", Arial, sans-serif;
+    font-size: 11pt;
+    line-height: 1.55;
+    color: #1f2933;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  .cover {
+    min-height: 255mm;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    page-break-after: always;
+    padding: 0 6mm;
+  }
+  .kicker {
+    font-size: 10pt;
+    letter-spacing: 4px;
+    color: #b45309;
+    font-weight: 600;
+    margin-bottom: 14mm;
+  }
+  .cover-title {
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 86pt;
+    line-height: 0.95;
+    letter-spacing: 6px;
+    color: #0f172a;
+    margin: 0;
+  }
+  .cover-sub {
+    font-family: Georgia, serif;
+    font-size: 24pt;
+    letter-spacing: 7px;
+    text-transform: uppercase;
+    color: #b45309;
+    margin-top: 5mm;
+  }
+  .cover-rule {
+    width: 42mm;
+    height: 3px;
+    background: #f59e0b;
+    margin: 12mm 0 10mm;
+  }
+  .cover-desc {
+    font-family: Georgia, serif;
+    font-style: italic;
+    font-size: 15pt;
+    color: #475569;
+    max-width: 130mm;
+    margin: 0 0 22mm;
+  }
+  .cover-meta {
+    border-top: 1px solid #cbd5e1;
+    padding-top: 8mm;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 5mm 12mm;
+    max-width: 165mm;
+    font-size: 10.5pt;
+  }
+  .cover-meta div { color: #334155; }
+  .cover-meta span {
+    display: block;
+    font-size: 8pt;
+    letter-spacing: 1.6px;
+    text-transform: uppercase;
+    color: #94a3b8;
+    margin-bottom: 1.5mm;
+  }
+
+  h1, h2, h3, h4 {
+    font-family: Georgia, "Times New Roman", serif;
+    color: #0f172a;
+    line-height: 1.2;
+    break-after: avoid;
+  }
+  h2 {
+    font-size: 19pt;
+    margin: 26px 0 10px;
+    padding-bottom: 5px;
+    border-bottom: 2px solid #f59e0b;
+  }
+  h2.first { margin-top: 0; }
+  h3 {
+    font-size: 14pt;
+    margin: 20px 0 6px;
+    color: #7c2d12;
+  }
+  h4 { font-size: 12pt; margin: 16px 0 4px; }
+  p { margin: 0 0 9px; }
+  strong { color: #0f172a; }
+  a { color: #b45309; text-decoration: none; }
+  ul, ol { margin: 4px 0 12px; padding-left: 22px; }
+  li { margin: 3px 0; }
+  hr { border: 0; border-top: 1px solid #e2e8f0; margin: 22px 0; }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 8px 0 16px;
+    font-size: 9.8pt;
+    break-inside: avoid;
+  }
+  th, td {
+    border: 1px solid #cbd5e1;
+    padding: 6px 8px;
+    text-align: left;
+    vertical-align: top;
+  }
+  th {
+    background: #f1f5f9;
+    color: #0f172a;
+    font-weight: 600;
+  }
+  tr:nth-child(even) td { background: #f8fafc; }
+
+  code {
+    font-family: Consolas, "Courier New", monospace;
+    font-size: 9.6pt;
+    background: #f1f5f9;
+    color: #9a3412;
+    padding: 1px 4px;
+    border-radius: 3px;
+  }
+  pre {
+    background: #0f172a;
+    color: #e2e8f0;
+    padding: 12px 14px;
+    border-radius: 6px;
+    overflow-wrap: anywhere;
+    white-space: pre-wrap;
+    break-inside: avoid;
+  }
+  pre code { background: none; color: inherit; padding: 0; }
+  blockquote {
+    margin: 12px 0;
+    padding: 8px 14px;
+    border-left: 4px solid #f59e0b;
+    background: #fffbeb;
+    color: #57534e;
+  }
+  input[type="checkbox"] { margin-right: 6px; }
+  .signature {
+    margin-top: 30px;
+    padding-top: 12px;
+    border-top: 1px solid #e2e8f0;
+    font-size: 9pt;
+    color: #94a3b8;
+  }
+  @media print {
+    h2 { page-break-after: avoid; }
+    table, pre, blockquote { page-break-inside: avoid; }
+  }
+</style>
+</head>
+<body>
+  <section class="cover">
+    <div class="kicker">TRABAJO PRÁCTICO · MÓDULO 7</div>
+    <h1 class="cover-title">BRASA</h1>
+    <div class="cover-sub">El último fuego</div>
+    <div class="cover-rule"></div>
+    <p class="cover-desc">Plataformas 2D donde el calor es vida, luz y munición.</p>
+    <div class="cover-meta">
+      <div><span>Materia</span>Desarrollo Tecnológico 2</div>
+      <div><span>Stack</span>JavaScript · Node.js · Vite · Phaser 3</div>
+      <div><span>Equipo</span>2 integrantes</div>
+      <div><span>Fecha</span>Noviembre de 2026</div>
+    </div>
+  </section>
+
+  <main>
+    <h2 class="first">Ficha del proyecto</h2>
+    <table>
+<thead>
+<tr>
+<th>Campo</th>
+<th>Detalle</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>Nombre</strong></td>
+<td>Brasa</td>
+</tr>
+<tr>
+<td><strong>Género</strong></td>
+<td>Plataformas 2D con gestión de recursos</td>
+</tr>
+<tr>
+<td><strong>Plataforma</strong></td>
+<td>Navegador (WebGL / Canvas)</td>
+</tr>
+<tr>
+<td><strong>Stack</strong></td>
+<td>JavaScript · Node.js · Vite · Phaser 3</td>
+</tr>
+<tr>
+<td><strong>Duración</strong></td>
+<td>10–15 minutos (3 niveles)</td>
+</tr>
+<tr>
+<td><strong>Equipo</strong></td>
+<td>2 integrantes</td>
+</tr>
+<tr>
+<td><strong>Versión</strong></td>
+<td>1.0</td>
+</tr>
+</tbody></table>
+<hr>
+<h2>1. Concepto</h2>
+<p>Sos la última brasa de un mundo apagado. Tu cuerpo es fuego: <strong>el Calor es tu vida, tu luz y tu munición al mismo tiempo</strong>. Tenés que atravesar tres zonas en ruinas, juntar combustible y recuerdos, y llegar al Primer Fuego antes de apagarte.</p>
+<p>La tensión central: iluminarte te permite ver y atacar, pero te consume; apagarte te protege de los enemigos, pero te deja sin recursos. Cada recuerdo que encontrás puede conservarse (puntaje y final) o quemarse para recuperar 100 de Calor.</p>
+<hr>
+<h2>2. Objetivo y condiciones</h2>
+<ul>
+<li><strong>Objetivo:</strong> completar los 3 niveles y encender el Primer Fuego.</li>
+<li><strong>Victoria:</strong> llegar al Primer Fuego del nivel 3. El final y el puntaje dependen de los recuerdos conservados.</li>
+<li><strong>Derrota:</strong> el Calor llega a 0. Se muestra la pantalla de derrota con puntaje y opción de reintentar.</li>
+<li><strong>Reinicio:</strong> botón &quot;Reintentar&quot; en derrota/victoria y tecla <code>R</code> durante la partida. Reinicia la run completa (nivel 1, puntaje 0, Calor 100).</li>
+</ul>
+<hr>
+<h2>3. Bucle de juego</h2>
+<pre><code>Explorar → juntar astillas/recuerdos → decidir si quemar un recuerdo
+   ↑                                            ↓
+Llegar a la puerta ← esquivar Apagados ← atravesar viento/agua
+</code></pre>
+<ol>
+<li>El Calor baja lentamente con el tiempo.</li>
+<li>Las astillas recuperan +15 Calor; los recuerdos +100 si se queman.</li>
+<li>Las chispas cuestan 10 Calor y encienden antorchas.</li>
+<li>Las antorchas crean zonas seguras y ahuyentan enemigos.</li>
+<li>La puerta de cada nivel consume 1 recuerdo para abrirse.</li>
+</ol>
+<hr>
+<h2>4. Mecánicas</h2>
+<h3>4.1 Calor (recurso único)</h3>
+<table>
+<thead>
+<tr>
+<th>Estado</th>
+<th>Rango</th>
+<th>Efecto</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Brasa</td>
+<td>1–25</td>
+<td>Luz mínima; los Apagados te detectan a 90 px</td>
+</tr>
+<tr>
+<td>Llama</td>
+<td>26–65</td>
+<td>Estado normal; detección a 160 px</td>
+</tr>
+<tr>
+<td>Fogata</td>
+<td>66–100</td>
+<td>Luz máxima; detección a 240 px</td>
+</tr>
+</tbody></table>
+<ul>
+<li>Drenaje pasivo: <strong>1,2 Calor/s</strong>.</li>
+<li>Correr: <strong>+3 Calor/s</strong>.</li>
+<li>Viento: <strong>+6 Calor/s</strong> adicionales mientras estés dentro.</li>
+<li>Cerca de una antorcha encendida: no hay drenaje y se regenera <strong>3 Calor/s</strong> (máximo 100).</li>
+<li>Recibir daño de enemigo: <strong>−20 Calor</strong> + empuje + 1 s de invulnerabilidad.</li>
+<li>Caer al agua/ceniza: <strong>−20 Calor</strong> y reaparición en el último punto seguro.</li>
+<li>Caer fuera del mundo: <strong>−15 Calor</strong> y reaparición.</li>
+<li>Al llegar a 0: derrota.</li>
+</ul>
+<h3>4.2 Combustible</h3>
+<table>
+<thead>
+<tr>
+<th>Objeto</th>
+<th>Efecto</th>
+<th>Puntaje</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Astilla</td>
+<td>+15 Calor</td>
+<td>+10</td>
+</tr>
+<tr>
+<td>Recuerdo</td>
+<td>Se guarda en el inventario</td>
+<td>+50 al recogerlo</td>
+</tr>
+</tbody></table>
+<ul>
+<li>Inventario máximo de recuerdos: sin límite (máximo 8 en toda la run).</li>
+<li><strong>Quemar recuerdo (<code>Q</code>):</strong> +100 Calor, +1 recuerdo quemado, se pierde para siempre.</li>
+<li><strong>Puerta de nivel:</strong> consume 1 recuerdo y avanza al siguiente nivel.</li>
+<li>Recuerdos por nivel: <strong>3 / 3 / 2</strong>. Las puertas de los niveles 1 y 2 consumen 1 cada una, por lo que el máximo conservado al final es <strong>6</strong>.</li>
+</ul>
+<h3>4.3 Chispas y antorchas</h3>
+<ul>
+<li><strong>Chispa (<code>J</code> o clic):</strong> cuesta 10 Calor, vuela en línea recta, dura 1,2 s.</li>
+<li>Enciende antorchas durante <strong>20 s</strong>.</li>
+<li>Aturde a un Apagado durante <strong>2 s</strong>.</li>
+<li>Antorcha encendida: radio de luz y zona segura de 110 px; los enemigos a menos de 140 px retroceden.</li>
+</ul>
+<h3>4.4 Avivar (<code>K</code> o <code>Shift</code>)</h3>
+<ul>
+<li>Cuesta <strong>8 Calor</strong>.</li>
+<li>Impulso de velocidad durante 0,25 s.</li>
+<li>Empuja y aturde a los Apagados a menos de 120 px durante 1,5 s.</li>
+<li>Se usa para escapar y para cruzar ráfagas de viento.</li>
+</ul>
+<h3>4.5 Enemigos y peligros</h3>
+<table>
+<thead>
+<tr>
+<th>Elemento</th>
+<th>Comportamiento</th>
+<th>Daño</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>Apagado</strong></td>
+<td>Patrulla; persigue según el estado de Calor; huye de antorchas</td>
+<td>−20 Calor al contacto</td>
+</tr>
+<tr>
+<td><strong>Viento</strong></td>
+<td>Zona con partículas; empuja y drena Calor</td>
+<td>−6 Calor/s</td>
+</tr>
+<tr>
+<td><strong>Agua/Ceniza</strong></td>
+<td>Zona letal en los huecos</td>
+<td>−20 Calor + reaparición</td>
+</tr>
+</tbody></table>
+<p>No hay combate directo: las chispas y &quot;Avivar&quot; sirven para controlar el espacio, no para eliminar enemigos.</p>
+<hr>
+<h2>5. Niveles</h2>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>Nombre</th>
+<th>Ancho</th>
+<th>Desafío</th>
+<th>Recuerdos</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>1</td>
+<td>El Bosque Húmedo</td>
+<td>3200 px</td>
+<td>Tutorial: movimiento, astillas, chispa, antorcha, primer Apagado</td>
+<td>3</td>
+</tr>
+<tr>
+<td>2</td>
+<td>La Ciudad Sumergida</td>
+<td>3400 px</td>
+<td>Huecos con agua, más enemigos y viento</td>
+<td>3</td>
+</tr>
+<tr>
+<td>3</td>
+<td>El Primer Fuego</td>
+<td>3800 px</td>
+<td>Viento fuerte, tres Apagados y llegada al Primer Fuego</td>
+<td>2</td>
+</tr>
+</tbody></table>
+<p>Cada nivel tiene un punto de aparición, plataformas, astillas, antorchas, enemigos, zonas de viento, peligros y una salida.</p>
+<hr>
+<h2>6. Puntaje</h2>
+<table>
+<thead>
+<tr>
+<th>Acción</th>
+<th>Puntos</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Recoger astilla</td>
+<td>+10</td>
+</tr>
+<tr>
+<td>Recoger recuerdo</td>
+<td>+50</td>
+</tr>
+<tr>
+<td>Recuerdo conservado al ganar</td>
+<td>+100</td>
+</tr>
+<tr>
+<td>Completar nivel</td>
+<td>+250 + Calor restante</td>
+</tr>
+<tr>
+<td>Quemar recuerdo</td>
+<td>0 (pero otorga +100 Calor)</td>
+</tr>
+</tbody></table>
+<p>El puntaje máximo se guarda en <code>localStorage</code> y se muestra en el menú.</p>
+<hr>
+<h2>7. Controles</h2>
+<table>
+<thead>
+<tr>
+<th>Acción</th>
+<th>Teclado / Mouse</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Mover</td>
+<td><code>A</code> / <code>D</code> o flechas</td>
+</tr>
+<tr>
+<td>Saltar</td>
+<td><code>Espacio</code> / <code>W</code> / <code>↑</code></td>
+</tr>
+<tr>
+<td>Correr</td>
+<td><code>Shift</code></td>
+</tr>
+<tr>
+<td>Chispa</td>
+<td><code>J</code> o clic izquierdo</td>
+</tr>
+<tr>
+<td>Avivar</td>
+<td><code>K</code></td>
+</tr>
+<tr>
+<td>Quemar recuerdo</td>
+<td><code>Q</code></td>
+</tr>
+<tr>
+<td>Reintentar run</td>
+<td><code>R</code></td>
+</tr>
+<tr>
+<td>Pausa</td>
+<td><code>Esc</code></td>
+</tr>
+<tr>
+<td>Silenciar</td>
+<td><code>M</code></td>
+</tr>
+</tbody></table>
+<hr>
+<h2>8. Presentación</h2>
+<ul>
+<li><strong>Arte:</strong> siluetas y formas geométricas generadas por código (sin assets externos). Paleta azul noche + ámbar.</li>
+<li><strong>Luz:</strong> overlay de oscuridad con recorte radial sobre el jugador y las antorchas.</li>
+<li><strong>Partículas:</strong> brasas, humo, chispas y ráfagas de viento.</li>
+<li><strong>Audio:</strong> efectos sintetizados con Web Audio API (salto, recogida, daño, chispa, victoria, derrota). Sin archivos de audio.</li>
+<li><strong>UI:</strong> barra de Calor, puntaje, recuerdos, nivel y avisos contextuales.</li>
+</ul>
+<hr>
+<h2>9. Alcance</h2>
+<p><strong>Incluido:</strong> 3 niveles, 8 recuerdos, 2 tipos de peligro ambiental, 1 tipo de enemigo, puntaje, mejor puntaje, pausa, victoria, derrota, reinicio, audio sintetizado, controles por teclado y mouse.</p>
+<p><strong>Fuera de alcance:</strong> multijugador, guardado de partida, editor de niveles, jefes, assets externos, localización.</p>
+<hr>
+<h2>10. Arquitectura técnica</h2>
+<pre><code>src/
+├── scenes/      Boot, Menu, Game, HUD, GameOver, Victory
+├── entities/    Player, Enemy, Fuel, Memory, Torch, Spark, WindZone
+├── systems/     HeatSystem, ScoreSystem, LevelManager, AudioSystem, EventBus
+├── patterns/    StateMachine, ObjectPool
+├── data/        levels.js
+└── main.js
+</code></pre>
+<p><strong>Patrones aplicados:</strong></p>
+<ul>
+<li><strong>State:</strong> máquina de estados finitos para el jugador (idle/run/jump/fall) y para el Apagado (patrol/chase/flee/stunned).</li>
+<li><strong>Object Pool:</strong> reutilización de chispas para evitar crear/destruir objetos en cada disparo.</li>
+<li><strong>Observer:</strong> <code>EventBus</code> desacopla la lógica del juego de la interfaz (Calor, puntaje, recuerdos y avisos).</li>
+</ul>
+<hr>
+<h2>11. Criterios de aceptación</h2>
+<ul>
+<li><input checked="" disabled="" type="checkbox"> <code>npm install</code> y <code>npm run dev</code> funcionan sin errores.</li>
+<li><input checked="" disabled="" type="checkbox"> <code>npm run build</code> genera una build estática válida.</li>
+<li><input checked="" disabled="" type="checkbox"> Se puede iniciar, jugar, ganar y perder.</li>
+<li><input checked="" disabled="" type="checkbox"> El Calor se agota, se recupera con astillas y se quema con recuerdos.</li>
+<li><input checked="" disabled="" type="checkbox"> Los enemigos y el viento generan riesgo real.</li>
+<li><input checked="" disabled="" type="checkbox"> El puntaje se actualiza y se conserva el mejor puntaje.</li>
+<li><input checked="" disabled="" type="checkbox"> Reiniciar deja la partida en estado limpio.</li>
+<li><input checked="" disabled="" type="checkbox"> Los 3 niveles son completables.</li>
+</ul>
+
+  </main>
+</body>
+</html>
