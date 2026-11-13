@@ -1,0 +1,20 @@
+{
+  "name": "brasa-el-ultimo-fuego",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Plataformas 2D donde el calor es vida, luz y munición. TP Módulo 7 - Desarrollo Tecnológico 2.",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "generate:pdf": "node scripts/generate-pdf.mjs"
+  },
+  "dependencies": {
+    "phaser": "3.90.0"
+  },
+  "devDependencies": {
+    "marked": "^18.2.0",
+    "vite": "^7.1.0"
+  }
+}

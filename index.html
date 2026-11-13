@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Brasa: plataformas 2D donde el calor es vida, luz y munición." />
+    <title>Brasa — El último fuego</title>
+    <style>
+      :root {
+        color-scheme: dark;
+        --bg: #04070d;
+        --amber: #f2a93b;
+        --ash: #8d99a6;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      html,
+      body {
+        margin: 0;
+        min-height: 100%;
+        background: radial-gradient(circle at 50% 30%, #101c28 0%, var(--bg) 65%);
+        color: var(--ash);
+        font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
+        overflow: hidden;
+      }
+
+      body {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 100vh;
+      }
+
+      #game {
+        width: 100vw;
+        height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      #game canvas {
+        box-shadow: 0 0 60px rgba(242, 169, 59, 0.12);
+        border-radius: 6px;
+      }
+
+      .fallback {
+        max-width: 520px;
+        padding: 2rem;
+        text-align: center;
+        line-height: 1.6;
+      }
+
+      .fallback strong {
+        color: var(--amber);
+      }
+    </style>
+  </head>
+  <body>
+    <div id="game">
+      <noscript>
+        <div class="fallback">
+          <strong>Brasa</strong> necesita JavaScript para funcionar.
+        </div>
+      </noscript>
+    </div>
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>
