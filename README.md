@@ -3,8 +3,9 @@
 > **Plataformas 2D donde el Calor es vida, luz y munición.**
 > Trabajo Práctico · Módulo 7 · Desarrollo Tecnológico 2.
 
-**Integrante:** Santiago Tornau
-**Repositorio:** <https://github.com/acloshh/Actividad-Modulo-7-Desarrollo-Tecnologico>
+**Integrante:** Santiago Tornau  
+**Repositorio:** <https://github.com/acloshh/Actividad-Modulo-7-Desarrollo-Tecnologico>  
+**Jugar online:** <https://acloshh.github.io/Actividad-Modulo-7-Desarrollo-Tecnologico/>
 
 ![Menú principal](docs/capturas/menu.png)
 
